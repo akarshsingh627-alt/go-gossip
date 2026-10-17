@@ -35,7 +35,7 @@ const $=id=>document.getElementById(id),e=s=>String(s??'').replace(/[&<>"]/g,c=>
 const TABS=[['over','Overview'],['queue','Review queue'],['posts','Posts'],['mods','Mods'],['users','Users']];
 let tab='over';
 const B=(a,id,t,x='',c='')=>`<button class="b ${c}" data-a="${a}" data-id="${id}" ${x}>${t}</button>`;
-const post=(p,stat,btns)=>`<div class="card"><div class="sub">${e(p.community_name)} - by ${e(p.handle)}${p.pinned?' - <b>PINNED</b>':''}</div><div>${e(p.body)}</div><div class="sub">${stat}</div><div class="acts">${btns}</div></div>`;
+const post=(p,stat,btns)=>`<div class="card"><div class="sub">${e(p.community_name||'Whole college')} - by ${e(p.handle)}${p.pinned?' - <b>PINNED</b>':''}</div><div><b>${e(p.title)}</b></div><div>${e(p.body||'')}</div><div class="sub">${stat}</div><div class="acts">${btns}</div></div>`;
 const rpcv=async(n,a)=>{const r=await sb.rpc(n,a);if(r.error){alert(r.error.message);return null}return r.data};
 async function show(){
 $('tabs').innerHTML=TABS.map(t=>`<button class="t ${tab==t[0]?'on':''}" data-a="tab" data-id="${t[0]}">${t[1]}</button>`).join('');

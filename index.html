@@ -4,164 +4,217 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>gogossip - Sherwood</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%237CF5C8%27/%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%236C3BFF%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <style>
-:root{--bg:#FFF6EC;--card:#fff;--line:#F1E1D2;--tx:#231B33;--mut:#6B6280;--pri:#6C3BFF;--pk:#E8307A;--ok:#0A8F6F;--grad:linear-gradient(135deg,#6C3BFF,#E8307A);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{--bg:#F5F1FF;--line:#E6DEFA;--tx:#1B1233;--mut:#655B80;--pri:#5B2DDD;--pk:#D4246F;--ok:#0A8F6F;--grad:linear-gradient(135deg,#6C3BFF,#D4246F);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:150px}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font-family:'Space Grotesk',system-ui,sans-serif;font-size:15px}
+body{margin:0;background:radial-gradient(900px 320px at 50% -80px,#E4D8FF,transparent),var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px;min-height:100vh}
 button{font-family:inherit;color:inherit;cursor:pointer}
-#app{max-width:480px;margin:0 auto;padding-bottom:90px;min-height:100vh}
-header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding:16px 16px 4px}
-h1,h2{margin:0;font-size:26px}
-.brand{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{font-size:13px;color:var(--mut)}
-.row{display:flex;gap:8px;overflow-x:auto;padding:8px 16px}
-.chip{flex:none;height:44px;padding:0 16px;border-radius:22px;border:2px solid var(--line);background:#fff;font-size:14px;font-weight:500;white-space:nowrap}
-.chip.on{background:var(--grad);color:#fff;border-color:transparent;font-weight:700}
-.list{display:flex;flex-direction:column;gap:12px;padding:8px 16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 0 var(--line)}
-.who{display:flex;align-items:center;gap:10px}
-.av{width:36px;height:36px;border-radius:50%;background:#FFD6E7;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none;color:var(--tx)}
-.who b{display:block;font-size:15px}.who span{font-size:12px;color:var(--mut)}
-.tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:12px}
-.txt{line-height:1.45;overflow-wrap:anywhere}
-.rp{font-size:12px;color:var(--pri);font-weight:700}
+#app{max-width:680px;margin:0 auto;padding-bottom:48px}
+#top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:rgba(245,241,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);transition:transform .25s}
+#top.hide{transform:translateY(-110%)}
+#th{max-width:680px;margin:0 auto}
+.hr{display:flex;align-items:center;gap:8px;padding:10px 14px 4px}
+.logo{margin-right:auto;border:0;padding:0;font-size:27px;font-weight:800;letter-spacing:-1px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ib{width:40px;height:40px;border-radius:20px;border:1.5px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;position:relative;color:var(--tx)}
+.ib svg{width:20px;height:20px}.ib.pri{background:var(--grad);border:0;color:#fff}
+.bd2{position:absolute;top:-4px;right:-4px;background:var(--pk);color:#fff;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.tb{display:flex;padding:0 8px}
+.tb button{flex:1;background:none;border:0;border-bottom:3px solid transparent;color:var(--mut);font-size:11.5px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0 3px;min-height:46px}
+.tb button.on{color:var(--pri);border-bottom-color:var(--pri)}.tb svg{width:20px;height:20px}
+.list{display:flex;flex-direction:column;gap:10px;padding:10px 14px}
+.fr{display:flex;gap:6px;overflow-x:auto;padding:0 14px 6px;align-items:center;scrollbar-width:none}
+.fr::-webkit-scrollbar{display:none}
+.fl{flex:none;width:70px;font-size:10.5px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+.sc{flex:none;height:30px;padding:0 12px;border-radius:15px;border:1.5px solid var(--line);background:#fff;font-size:12.5px;font-weight:700;white-space:nowrap}
+.sc.on{background:var(--grad);color:#fff;border-color:transparent}
+.pr{width:100%;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;text-align:left;color:var(--mut);font-size:14px;font-weight:500}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 14px;box-shadow:0 6px 18px rgba(91,45,221,.07);display:flex;flex-direction:column;gap:7px}
+.mt{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px;color:var(--mut)}
+.hb{background:none;border:0;padding:0;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--mut)}
+.pl{margin-left:auto;display:flex;gap:4px}
+.av{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-weight:800;color:#3B1C8C;flex:none}
+.pill{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap}
+.pill.c{background:#EFE9FF;color:#4B22C9}.pill.t{background:#FFF0C2;color:#6B4A00}.pill.w{background:#EEEAF4;color:#4A4160}
+.pn{font-size:12px;font-weight:800;color:var(--pk)}
+.rp{font-size:12px;font-weight:700;color:var(--pri)}
+.ti{margin:0;font-size:16px;line-height:1.3;font-weight:800;cursor:pointer}
+.bd{font-size:14px;line-height:1.45;color:var(--mut);white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+.bd.full{display:block;overflow:visible;cursor:default;color:var(--tx);font-size:15px}
 .acts{display:flex;gap:4px;flex-wrap:wrap}
-.act{height:44px;padding:0 10px;border-radius:22px;border:2px solid var(--line);background:#fff;color:var(--mut);display:flex;align-items:center;gap:5px;font-size:13px;font-weight:700}
-.act.on{color:var(--ok);border-color:#14C8A0;background:#E3FBF3}
-.act.d.on{color:#C71F55;border-color:var(--pk);background:#FFE8F0}
-.act svg{width:18px;height:18px}
-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;background:#fff;border-top:2px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));z-index:6}
-nav button{flex:1;background:none;border:0;color:var(--mut);font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:48px}
-nav button.on{color:var(--pri)}nav svg{width:22px;height:22px}
-.pick{height:48px;border-radius:14px;border:2px solid var(--line);background:#fff;display:flex;align-items:center;padding:0 14px;width:100%;text-align:left;font-size:15px;font-weight:500}
-.pick.on{background:var(--grad);color:#fff;border-color:transparent;font-weight:700}
-.pick small{margin-left:auto;opacity:.85}
-textarea,.inp{width:100%;border-radius:16px;border:2px solid var(--line);background:#fff;color:var(--tx);padding:14px;font:16px/1.5 inherit;font-family:inherit;resize:none}
-textarea{height:160px}.inp{height:48px;border-radius:24px;padding:0 18px}
-textarea:focus,.inp:focus{outline:2px solid var(--pri);border-color:transparent}
-.go{height:48px;border-radius:24px;border:0;background:var(--grad);color:#fff;font-weight:700;font-size:16px;padding:0 24px}
-.go:disabled{opacity:.5}
-.ghost{height:44px;border-radius:22px;border:2px solid var(--pri);background:none;color:var(--pri);font-weight:700;padding:0 16px;flex:none}
-.gbtn{height:56px;border-radius:28px;border:2px solid var(--line);background:#fff;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:12px}
-.item{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
-.item small{color:var(--mut);display:block;font-size:13px}
-.stats{display:flex;gap:8px;padding:8px 16px}.stats div{flex:1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
-.stats b{font-size:22px;display:block}.stats span{font-size:12px;color:var(--mut)}
-.cm{padding:6px 0}
-.pt{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:10px;background:#EFE7FF;color:#4B22C9;align-self:flex-start}
-.kids{margin-left:13px;padding-left:12px;border-left:2px solid #E3CFF0}.kids.flat{margin-left:0;padding-left:8px}
-.mini{width:44px;height:44px;border:0;background:none;color:var(--mut);font-size:22px;font-weight:700}
-#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--tx);color:#fff;padding:12px 18px;border-radius:24px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9;max-width:90%;text-align:center}
+.act{height:36px;padding:0 10px;border-radius:18px;border:1.5px solid var(--line);background:#fff;color:var(--mut);display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700}
+.act svg{width:16px;height:16px}
+.act.on{color:var(--ok);border-color:#14C8A0;background:#E3FBF3}.act.d.on{color:#C71F55;border-color:var(--pk);background:#FFE8F0}
+.hd2{font-size:22px;font-weight:800}.sub{font-size:13px;color:var(--mut)}.bold{font-weight:800}
+.box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.lb{font-weight:800;font-size:14px}.lb span{font-weight:500;color:var(--mut);font-size:12px}
+.ct{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut)}
+.inp,textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--tx);padding:11px 12px;font-size:15px;font-family:inherit}
+textarea{height:96px;resize:none}
+.inp:focus,textarea:focus{outline:2px solid var(--pri);border-color:transparent}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sc2{max-height:184px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding-right:2px}
+.rd{display:flex;align-items:center;gap:8px;min-height:40px;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:4px 10px;font-size:13px;font-weight:700;text-align:left;width:100%}
+.rd.on{background:#F3EEFF;border-color:var(--pri)}
+.dot{width:16px;height:16px;border-radius:8px;border:2px solid #B9AFD6;flex:none}
+.rd.on .dot{border-color:var(--pri);background:radial-gradient(var(--pri) 45%,transparent 50%)}
+.go{height:48px;border-radius:24px;border:0;background:var(--grad);color:#fff;font-weight:800;font-size:16px;padding:0 24px}
+.ghost{height:44px;border-radius:22px;border:2px solid var(--pri);background:none;color:var(--pri);font-weight:700;padding:0 16px}
+.gbtn{height:56px;border-radius:28px;border:2px solid var(--line);background:#fff;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;gap:12px}
+.prev{background:linear-gradient(160deg,#EFE9FF,#FBEAF3);border:1px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.pv{font-size:11px;font-weight:800;color:var(--pri);letter-spacing:.5px}
+.seg{display:flex;gap:4px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:4px}
+.seg button{flex:1;height:40px;border:0;border-radius:10px;background:none;font-weight:700;font-size:14px}
+.seg button.on{background:var(--grad);color:#fff}
+.nr{display:flex;align-items:center;gap:10px;background:transparent;border:0;border-bottom:1px solid var(--line);padding:12px 4px;text-align:left;width:100%}
+.nr.new{background:#fff}.nr>div{flex:1;min-width:0}
+.nd{width:8px;height:8px;border-radius:4px;flex:none}.nr.new .nd{background:var(--pk)}
+.nm{font-size:14px;font-weight:700;line-height:1.35}
+.ph{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px}.ph b{font-size:20px}
+.stats{display:flex;gap:8px}.stats div{flex:1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}
+.stats b{font-size:20px;display:block}.stats span{font-size:12px;color:var(--mut)}
+.cm{padding:4px 0}.cr{display:flex;align-items:center;gap:8px}
+.kids{margin-left:12px;padding-left:10px;border-left:2px solid #DCCBF3}.kids.flat{margin-left:0;padding-left:6px}
+.mini{width:40px;height:40px;border:0;background:none;color:var(--mut);font-size:22px;font-weight:700;margin-left:auto}
+.soon{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:48px 24px}
+#toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:var(--tx);color:#fff;padding:12px 18px;border-radius:24px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;max-width:90%;text-align:center}
 #toast.show{opacity:1}
-#sheet{position:fixed;inset:0;background:rgba(35,27,51,.5);z-index:8;display:none;align-items:flex-end;justify-content:center}
+#sheet{position:fixed;inset:0;background:rgba(27,18,51,.5);z-index:20;display:none;align-items:flex-end;justify-content:center}
 #sheet.show{display:flex}
-#sheet>div{width:100%;max-width:480px;background:var(--bg);border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px}
-@media(min-width:900px){
-#app{max-width:680px;padding-top:72px;padding-bottom:48px}
-nav{top:0;bottom:auto;max-width:680px;border-top:0;border-bottom:2px solid var(--line);padding:8px 16px}
-nav button{flex-direction:row;justify-content:center;gap:8px;font-size:14px}
-header{top:72px}
-.row{flex-wrap:wrap;overflow:visible}
-#sheet{align-items:center}
-#sheet>div{max-width:420px;border-radius:20px}
-#toast{bottom:32px}
-}
+#sheet>div{width:100%;max-width:480px;background:var(--bg);border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px;max-height:80vh;overflow-y:auto}
+@media(min-width:700px){#sheet{align-items:center}#sheet>div{border-radius:20px}}
 </style>
 </head>
 <body>
-<div id="app"><header id="hd"></header><div id="view"></div></div>
-<nav id="nav"></nav><div id="toast"></div><div id="sheet"><div id="sheetbody"></div></div>
+<div id="top"><div id="th"></div></div>
+<div id="app"><div id="view"></div></div>
+<div id="toast"></div><div id="sheet"><div id="sheetbody"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 const SB_URL='https://agdpjenfwvsqgyeheqoy.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnZHBqZW5md3ZzcWd5ZWhlcW95Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwODI4NjMsImV4cCI6MjEwNzY1ODg2M30.0JFAqQ9kMUX0JlnA8cqUfJGagXypJAdnMM-tuOD5NzE',COL='Sherwood';
 const sb=SB_URL.startsWith('http')?supabase.createClient(SB_URL,SB_KEY):null;
+const TAGS=['General','1st year','2nd year','3rd year','Passed out','Hostellers','Faculty'];
 const AD=['quiet','soft','calm','neon','pixel','amber','lazy','tiny','mellow','brave'],AN=['otter','fox','moth','heron','comet','badger','lynx','panda','falcon','yak'];
 const genH=()=>AD[Math.random()*10|0]+'_'+AN[Math.random()*10|0]+'_'+(10+Math.random()*90|0);
+const $=id=>document.getElementById(id);
 const e=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const slug=s=>s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-const ago=t=>{const m=(Date.now()-new Date(t))/6e4;return m<1?'just now':m<60?(m|0)+' min':m<1440?(m/60|0)+' hr':(m/1440|0)+' d'};
+const ago=t=>{const m=(Date.now()-new Date(t))/6e4;return m<1?'just now':m<60?(m|0)+'m':m<1440?(m/60|0)+'h':(m/1440|0)+'d'};
 const hue=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))%360;return h};
-const avh=(n,z=36)=>`<div class="av" style="width:${z}px;height:${z}px;font-size:${z/2.4|0}px;background:hsl(${hue(n)} 90% 76%)">${e(String(n||'?')[0]).toUpperCase()}</div>`;
-const I=d=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>';
-const P={up:'<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>',cm:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',sh:'<path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/>',rp:'<path d="M17 1l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/>',home:'<path d="M4 11l8-7 8 7v9H4z"/>',grp:'<circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M15 15c3 0 6 1 6 4"/>',add:'<path d="M12 5v14M5 12h14"/>',usr:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>'};
-const T=[['home','Home',P.home],['comm','Communities',P.grp],['post','Post',P.add],['me','Profile',P.usr]];
-let uid=null,me=null,H=genH(),comms=[],posts=[],reps=[],mine=[],tab='home',flt='all',det=null,rp=null,pick='sherwood',draft='',rd='',q='',ready=0,nh='',collapsed={},rto=0,cd='',sort='hot',cmods=[],tg='General',ftag='all';
-let joined=['sherwood'];try{joined=JSON.parse(localStorage.getItem('j'))||joined}catch(x){}
-const saveJ=()=>{try{localStorage.setItem('j',JSON.stringify(joined))}catch(x){}};
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.k);toast.k=setTimeout(()=>t.classList.remove('show'),2200)}
-const $=id=>document.getElementById(id);
+const avh=(n,z=28)=>`<span class="av" style="width:${z}px;height:${z}px;font-size:${Math.round(z/2.3)}px;background:hsl(${hue(n)} 85% 82%)">${e(String(n||'?')[0]).toUpperCase()}</span>`;
+const wc=s=>s.trim()?s.trim().split(/\s+/).length:0;
+const I=d=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>';
+const P={up:'<path d="M12 19V5M5 12l7-7 7 7"/>',cm:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',sh:'<path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/>',rp:'<path d="M17 1l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/>',home:'<path d="M4 11l8-7 8 7v9H4z"/>',grp:'<circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M15 15c3 0 6 1 6 4"/>',add:'<path d="M12 5v14M5 12h14"/>',usr:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',se:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 0 0 4 0"/>'};
+const pill=(t,k)=>`<span class="pill ${k}">${k=='t'?'#':''}${e(t)}</span>`;
+let uid=null,me=null,H=genH(),comms=[],posts=[],reps=[],pp=[],sr=[],notes=[],xp=null,pu=null,cmods=[];
+let tab='home',flt='all',ftag='all',sort='hot',det=null,rp=null,step=0,pick='',tg='General',ttl='',bd='',rd='',q='',sq='',searched=0,nh='',collapsed={},rto=0,cd='',it=0,ready=0;
+const canMod=p=>!!p&&!!me&&(me.role=='admin'||cmods.includes(p.community_id));
+const fp=n=>(xp&&det!=null&&xp.id==n&&xp)||posts.find(z=>z.id==n)||pp.find(z=>z.id==n)||sr.find(z=>z.id==n);
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.k);toast.k=setTimeout(()=>t.classList.remove('show'),2200)}
 async function loadComms(){const{data}=await sb.from('communities').select('*').order('name');comms=data||[]}
 async function loadPosts(){let r=sb.from('feed').select('*').order('pinned',{ascending:false});if(flt!='all')r=r.eq('community_slug',flt);if(ftag!='all')r=r.eq('tag',ftag);r=sort=='new'?r.order('created_at',{ascending:false}):sort=='top'?r.order('score',{ascending:false}).order('created_at',{ascending:false}):r.order('hot',{ascending:false});const{data,error}=await r.limit(60);if(error)toast(error.message);posts=data||[]}
+async function loadReps(){const a=await sb.from('comments').select('*').eq('post_id',det).order('created_at');reps=a.data||[];const b=await sb.from('feed').select('*').eq('id',det).maybeSingle();xp=b.data}
 async function loadMods(){const{data}=await sb.from('community_mods').select('community_id').eq('user_id',uid);cmods=(data||[]).map(x=>x.community_id)}
-const TAGS=['General','1st year','2nd year','3rd year','Passed out','Hostellers','Faculty'];
-const canMod=p=>!!p&&!!me&&(me.role=='admin'||cmods.includes(p.community_id));
-async function loadReps(){const{data}=await sb.from('comments').select('*').eq('post_id',det).order('created_at');reps=data||[]}
-async function loadMine(){const{data}=await sb.from('feed').select('*').eq('author',uid).order('created_at',{ascending:false});mine=data||[]}
-function card(p){const v=p.my_vote||0,own=p.author==uid,h=hue(p.community_slug);
-return `<article class="card" style="border-top:4px solid hsl(${h} 85% 58%)"><div class="who">${avh(p.handle)}<div><b>${e(p.handle)}${own?' (you)':''}</b><span>${ago(p.created_at)}</span></div><span class="tag" style="margin-left:auto;background:hsl(${h} 80% 92%);color:hsl(${h} 65% 28%)">${e(p.community_name)}</span></div>${p.pinned?'<div class="rp" style="color:var(--pk)">Pinned by mods</div>':''}${p.repost_of?'<div class="rp">Reposted</div>':''}<span class="pt">${e(p.tag)}</span><div class="txt">${e(p.body)}</div>
-<div class="acts"><button class="act ${v==1?'on':''}" data-a="like" data-id="${p.id}" aria-label="Like">${I(P.up)}${p.likes}</button><button class="act d ${v==-1?'on':''}" data-a="dis" data-id="${p.id}" aria-label="Dislike"><span style="display:flex;transform:rotate(180deg)">${I(P.up)}</span>${p.dislikes}</button><button class="act" data-a="open" data-id="${p.id}" aria-label="Comments">${I(P.cm)}${p.replies}</button><button class="act" data-a="share" data-id="${p.id}" aria-label="Share">${I(P.sh)}</button><button class="act" data-a="repost" data-id="${p.id}" aria-label="Repost to another community">${I(P.rp)}</button></div></article>`}
+async function loadNotes(){const{data}=await sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(40);notes=data||[]}
+async function loadUserPosts(id){const{data}=await sb.from('feed').select('*').eq('author',id).order('created_at',{ascending:false});pp=data||[]}
+async function doSearch(){const t=sq.replace(/[%,()*]/g,' ').trim();searched=1;if(!t){sr=[];return}const{data}=await sb.from('feed').select('*').or('title.ilike.%'+t+'%,body.ilike.%'+t+'%').order('created_at',{ascending:false}).limit(40);sr=data||[]}
+async function rf(){await loadPosts();if(det!=null)await loadReps();if(tab=='me')await loadUserPosts(pu?pu.id:uid);if(tab=='search')await doSearch()}
+async function openPost(id){det=id;rto=0;cd='';await loadReps();window.scrollTo(0,0)}
+async function showUser(id){det=null;tab='me';window.scrollTo(0,0);if(id==uid)pu=null;else{const{data}=await sb.from('profiles').select('id,handle,created_at').eq('id',id).maybeSingle();pu=data}await loadUserPosts(id)}
+async function openOrCreate(){const s=slug(q);if(!s)return;if(!comms.some(c=>c.slug==s)){const{error}=await sb.from('communities').insert({slug:s,name:q.trim()});if(error){toast(s.length<2?'Name too short':error.message);return}await loadComms()}flt=s;tab='home';q='';await loadPosts()}
+async function enter(){const h=H.trim();if(!/^[A-Za-z0-9_]{3,20}$/.test(h)){toast('Use 3-20 letters, numbers or _');return}const{data,error}=await sb.from('profiles').insert({id:uid,handle:h}).select().single();if(error){toast(error.code=='23505'?'That handle is taken':error.message);return}me=data;tab='home'}
+function hdr(){const u=notes.filter(n=>!n.is_read).length,act=det!=null?'home':tab;
+const T=[['home','Home',P.home],['comm','Communities',P.grp],['post','Post',P.add],['me','Profile',P.usr]];
+$('th').innerHTML=`<div class="hr"><button class="logo" data-a="tab" data-id="home">gogossip</button><button class="ib" data-a="search" aria-label="Search">${I(P.se)}</button><button class="ib" data-a="inbox" aria-label="Alerts and replies">${I(P.bell)}${u?`<span class="bd2">${u>9?'9+':u}</span>`:''}</button><button class="ib pri" data-a="compose" aria-label="New post">${I(P.add)}</button></div><div class="tb">${T.map(t=>`<button class="${act==t[0]?'on':''}" data-a="${t[0]=='post'?'compose':'tab'}" data-id="${t[0]}">${I(t[2])}<span>${t[1]}</span></button>`).join('')}</div>`}
+function card(p,full){const v=p.my_vote||0,own=p.author==uid,o=full?'':` data-a="open" data-id="${p.id}"`;
+return `<article class="card">${p.pinned?'<div class="pn">Pinned by mods</div>':''}<div class="mt"><button class="hb" data-a="user" data-id="${p.author}">${avh(p.handle,22)}<span>${e(p.handle)}${own?' (you)':''}</span></button><span>${ago(p.created_at)}</span><span class="pl">${p.community_name?pill(p.community_name,'c'):pill('College','w')}${pill(p.tag,'t')}</span></div>${p.repost_of?'<div class="rp">Reposted</div>':''}<h3 class="ti"${o}>${e(p.title)}</h3>${p.body?`<div class="bd${full?' full':''}"${o}>${e(p.body)}</div>`:''}<div class="acts"><button class="act ${v==1?'on':''}" data-a="like" data-id="${p.id}" aria-label="Like">${I(P.up)}${p.likes}</button><button class="act d ${v==-1?'on':''}" data-a="dis" data-id="${p.id}" aria-label="Dislike"><span style="display:flex;transform:rotate(180deg)">${I(P.up)}</span>${p.dislikes}</button><button class="act" data-a="open" data-id="${p.id}" aria-label="Comments">${I(P.cm)}${p.replies}</button><button class="act" data-a="share" aria-label="Share">${I(P.sh)}</button><button class="act" data-a="repost" data-id="${p.id}" aria-label="Repost to another community">${I(P.rp)}</button></div></article>`}
 function ctree(){const by={};reps.forEach(r=>(by[r.parent_id||0]=by[r.parent_id||0]||[]).push(r));const sc=r=>r.likes-r.dislikes;Object.values(by).forEach(a=>a.sort((x,y)=>sc(y)-sc(x)||new Date(x.created_at)-new Date(y.created_at)));
 const draw=(pid,d)=>(by[pid]||[]).map(r=>{const v=r.my_vote||0,c=collapsed[r.id],k=by[r.id]||[];
-return `<div class="cm"><div class="who" style="gap:8px">${avh(r.handle,26)}<b style="font-size:14px">${e(r.handle)}${r.author==uid?' (you)':''}</b><span>${ago(r.created_at)}${c&&k.length?' - '+k.length+' hidden':''}</span><button class="mini" style="margin-left:auto" data-a="fold" data-id="${r.id}" aria-label="Collapse thread">${c?'+':'-'}</button></div>${c?'':`<div class="txt" style="margin:2px 0 4px 34px">${e(r.body)}</div><div class="acts" style="margin-left:34px"><button class="act ${v==1?'on':''}" data-a="cvote" data-w="1" data-id="${r.id}" aria-label="Like">${I(P.up)}${r.likes}</button><button class="act d ${v==-1?'on':''}" data-a="cvote" data-w="-1" data-id="${r.id}" aria-label="Dislike"><span style="display:flex;transform:rotate(180deg)">${I(P.up)}</span>${r.dislikes}</button><button class="act" data-a="rto" data-id="${r.id}">Reply</button>${canMod(posts.find(x=>x.id==det))?`<button class="act" data-a="cdel" data-id="${r.id}">Delete</button>`:''}</div>${rto==r.id?`<div style="margin:8px 0 0 34px;display:flex;flex-direction:column;gap:8px"><textarea id="crt" maxlength="300" style="height:80px" placeholder="Reply to ${e(r.handle)}">${e(cd)}</textarea><div style="display:flex;gap:8px"><button class="go" data-a="csend">Reply</button><button class="chip" data-a="rto" data-id="0">Cancel</button></div></div>`:''}${k.length?`<div class="kids${d>=4?' flat':''}">${draw(r.id,d+1)}</div>`:''}`}</div>`}).join('');
+return `<div class="cm"><div class="cr"><button class="hb" data-a="user" data-id="${r.author}">${avh(r.handle,22)}<span>${e(r.handle)}${r.author==uid?' (you)':''}</span></button><span class="sub">${ago(r.created_at)}${c&&k.length?' - '+k.length+' hidden':''}</span><button class="mini" data-a="fold" data-id="${r.id}" aria-label="Collapse thread">${c?'+':'-'}</button></div>${c?'':`<div class="bd full" style="margin:2px 0 4px 28px;font-size:14px">${e(r.body)}</div><div class="acts" style="margin-left:28px"><button class="act ${v==1?'on':''}" data-a="cvote" data-w="1" data-id="${r.id}" aria-label="Like">${I(P.up)}${r.likes}</button><button class="act d ${v==-1?'on':''}" data-a="cvote" data-w="-1" data-id="${r.id}" aria-label="Dislike"><span style="display:flex;transform:rotate(180deg)">${I(P.up)}</span>${r.dislikes}</button><button class="act" data-a="rto" data-id="${r.id}">Reply</button>${canMod(xp)?`<button class="act" data-a="cdel" data-id="${r.id}">Delete</button>`:''}</div>${rto==r.id?`<div style="margin:8px 0 0 28px;display:flex;flex-direction:column;gap:8px"><textarea id="crt" maxlength="500" style="height:76px" placeholder="Reply to ${e(r.handle)}">${e(cd)}</textarea><div style="display:flex;gap:8px"><button class="go" data-a="csend">Reply</button><button class="ghost" data-a="rto" data-id="0">Cancel</button></div></div>`:''}${k.length?`<div class="kids${d>=4?' flat':''}">${draw(r.id,d+1)}</div>`:''}`}</div>`}).join('');
 return draw(0,0)}
+const sc=(t,on,a,id)=>`<button class="sc ${on?'on':''}" data-a="${a}" data-id="${id}">${e(t)}</button>`;
+const loginv=()=>`<div class="list" style="min-height:90vh;justify-content:center;gap:18px;padding:28px"><h1 style="margin:0;font-size:46px;letter-spacing:-1.5px"><span class="logo" style="font-size:inherit">gogossip</span></h1><p style="font-size:18px;line-height:1.5;margin:0">Say what you really think at ${COL}. Real community, random handle.</p><button class="gbtn" data-a="gsign"><b style="font-size:20px;color:#4285F4">G</b>Continue with Google</button><div class="sub" style="line-height:1.5">Google only confirms you are a real person. Your name and email are never shown to anyone. You post with a handle.</div></div>`;
+const welv=()=>`<div class="list" style="min-height:90vh;justify-content:center;gap:16px;padding:28px"><div class="sub">Almost there</div><h1 style="margin:0;font-size:32px">Pick your handle</h1><p class="sub" style="font-size:15px;line-height:1.5;margin:0">This is the name others see. Letters, numbers and _ only, 3-20 characters. You can change it once a month.</p><input id="hin" class="inp" maxlength="20" value="${e(H)}" aria-label="Handle"><button class="ghost" data-a="shuffle">Shuffle a random one</button><button class="go" data-a="enter">Enter ${COL}</button></div>`;
+function home(){return `<div style="padding:10px 14px 6px"><button class="pr" data-a="compose">Share your thoughts, ask a question or start a discussion</button></div>
+<div class="fr">${[['hot','Hot'],['new','New'],['top','Top']].map(c=>sc(c[1],sort==c[0],'sort',c[0])).join('')}</div>
+<div class="fr"><span class="fl">Community</span>${sc('All',flt=='all','flt','all')}${comms.map(c=>sc(c.name,flt==c.slug,'flt',c.slug)).join('')}</div>
+<div class="fr"><span class="fl">Tag</span>${sc('All',ftag=='all','ftag','all')}${TAGS.map(t=>sc(t,ftag==t,'ftag',t)).join('')}</div>
+<div class="list" style="padding-top:4px">${!ready?'<div class="sub">Loading...</div>':posts.map(p=>card(p)).join('')||'<div class="sub">No posts here yet. Be the first.</div>'}</div>`}
+const rad=(t,on,a,id)=>`<button class="rd ${on?'on':''}" data-a="${a}" data-id="${e(id)}"><span class="dot"></span>${e(t)}</button>`;
+const compose=()=>`<div class="list"><div class="hd2">Create a discussion</div><div class="sub">Your title is required. Body is optional.</div>
+<div class="box"><label class="lb" for="ttl">Title <span>(required)</span></label><input id="ttl" class="inp" maxlength="150" placeholder="e.g. kitne teacher log classroom me khaini khaate hai?" value="${e(ttl)}"><div class="ct"><span>Short and clear, like a headline.</span><span id="tc">${ttl.length}/150</span></div></div>
+<div class="box"><label class="lb" for="bdy">Body <span>(optional)</span></label><textarea id="bdy" maxlength="7000" placeholder="Add context, explain your experience, or ask follow-up questions...">${e(bd)}</textarea><div class="ct"><span></span><span id="wc">${wc(bd)} words - up to 1,000 words</span></div></div>
+<div class="two"><div class="box"><div class="lb">Community <span>(optional)</span></div><div class="sc2">${rad('Whole college',pick=='','pick','')}${comms.map(c=>rad(c.name,pick==c.slug,'pick',c.slug)).join('')}</div></div><div class="box"><div class="lb">Topic tag</div><div class="sc2">${TAGS.map(t=>rad(t,tg==t,'ptag',t)).join('')}</div></div></div>
+<button class="go" data-a="review">Review post</button></div>`;
+function review(){const c=comms.find(z=>z.slug==pick);return `<div class="list"><div class="hd2">Review &amp; post</div><div class="prev"><span class="pv">PREVIEW</span><div class="cr">${avh(me.handle,36)}<b>${e(me.handle)}</b></div><div style="display:flex;gap:6px">${pill(c?c.name:'Whole college',c?'c':'w')}${pill(tg,'t')}</div><h3 class="ti" style="font-size:18px;cursor:default">${e(ttl)}</h3>${bd.trim()?`<div class="bd full">${e(bd.trim())}</div>`:''}</div><div class="sub" style="line-height:1.5">You will post as <b>${e(me.handle)}</b>. Your real name and email are never shown.</div><button class="go" data-a="send">Post discussion</button><button class="ghost" data-a="edit">Edit</button></div>`}
 function clist(){const s=slug(q),ql=q.trim().toLowerCase(),m=comms.filter(c=>!s||c.slug.includes(s)||c.name.toLowerCase().includes(ql));
-return m.map(c=>`<div class="card"><div class="who"><div><b>${e(c.name)}</b><span>${c.slug=='sherwood'?'Main college community':'Under '+COL}</span></div><button class="chip" style="margin-left:auto" data-a="go" data-id="${c.slug}">Open</button></div></div>`).join('')+(s&&!comms.some(c=>c.slug==s)?`<button class="go" data-a="create">Create "${e(q.trim())}" under ${COL}</button>`:'')}
-function views(){
-if(tab=='login')return ['',`<div style="min-height:85vh;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:28px"><h1 style="font-size:46px"><span class="brand">gogossip</span></h1><p style="font-size:18px;line-height:1.5;margin:0">Say what you really think at ${COL}. Real community, anonymous handle.</p><button class="gbtn" data-a="gsign"><b style="font-size:20px;color:#4285F4">G</b>Continue with Google</button><div class="sub" style="line-height:1.5">Google only confirms you are a real person. Your name and email are never shown to anyone. You post with a handle.</div></div>`];
-if(tab=='welcome')return ['',`<div style="min-height:85vh;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:28px"><div class="sub">Almost there</div><h1 style="font-size:34px"><span class="brand">Pick your handle</span></h1><p class="sub" style="font-size:15px;line-height:1.5;margin:0">This is the name everyone sees. Letters, numbers and _ only, 3-20 characters. You can change it once a month.</p><input id="hin" class="inp" maxlength="20" value="${e(H)}" aria-label="Handle"><button class="chip" data-a="shuffle">Shuffle a random one</button><button class="go" data-a="enter">Enter ${COL}</button></div>`];
-if(det!=null){const p=posts.find(x=>x.id==det);const bk='<button class="chip" data-a="back">Back</button>';if(!p)return [bk,'<div class="list"><div class="sub">This post is no longer available.</div></div>'];
-return [bk,`<div class="list">${card(p)}<button class="chip" data-a="report" style="align-self:flex-start">Report this post</button>${canMod(p)?`<div class="card"><b>Mod tools</b><div style="display:flex;flex-wrap:wrap;gap:8px"><button class="chip" data-a="pin" data-w="24">Pin 24h</button><button class="chip" data-a="pin" data-w="72">Pin 3 days</button><button class="chip" data-a="pin" data-w="168">Pin 7 days</button><button class="chip" data-a="unpin">Unpin</button><button class="chip" data-a="hide">Hide</button><button class="chip" data-a="pdel">Delete</button></div></div>`:''}<textarea id="rtext" maxlength="300" style="height:84px" placeholder="Add a comment (anonymous)">${e(rd)}</textarea><button class="go" data-a="reply">Comment</button><div class="sub" style="font-weight:700">${reps.length} comments</div>${ctree()||'<div class="sub">No comments yet. Start the discussion.</div>'}</div>`]}
-if(tab=='home'){const chips=[['all','All'],...comms.filter(c=>joined.includes(c.slug)||c.slug==flt).map(c=>[c.slug,c.name])];
-return [`<h1><span class="brand">gogossip</span></h1><div class="sub">${COL}</div>`,`<div class="row">${chips.map(c=>`<button class="chip ${flt==c[0]?'on':''}" data-a="flt" data-id="${c[0]}">${e(c[1])}</button>`).join('')}</div><div class="row" style="padding-top:0">${[['hot','Hot'],['new','New'],['top','Top']].map(c=>`<button class="chip ${sort==c[0]?'on':''}" data-a="sort" data-id="${c[0]}">${c[1]}</button>`).join('')}</div><div class="row" style="padding-top:0">${['all',...TAGS].map(t=>`<button class="chip ${ftag==t?'on':''}" data-a="ftag" data-id="${t}">${t=='all'?'All tags':e(t)}</button>`).join('')}</div><div class="list">${!ready?'<div class="sub">Loading...</div>':posts.map(card).join('')||'<div class="sub">No posts yet. Be the first.</div>'}</div>`]}
-if(tab=='comm')return ['<h1>Communities</h1><div class="sub">Type a name to open it or create it</div>',`<div class="list"><input id="q" value="${e(q)}" placeholder="Type a community name" autocomplete="off" style="height:48px;border-radius:24px;border:1px solid var(--line);background:var(--card);color:var(--tx);padding:0 18px;font:16px inherit;font-family:inherit;width:100%"><div id="clist" class="list" style="padding:0">${clist()}</div><div class="sub">Mod and Vice Mod elections arrive once your community grows.</div></div>`]
-if(tab=='post')return ['<h2>New post</h2>',`<div class="list"><div class="sub">Post to</div>${comms.map(c=>`<button class="pick ${pick==c.slug?'on':''}" data-a="pick" data-id="${c.slug}">${e(c.name)}${c.slug=='sherwood'?'<small>Main</small>':''}</button>`).join('')}<div class="sub">Tag</div><div style="display:flex;flex-wrap:wrap;gap:8px">${TAGS.map(t=>`<button class="chip ${tg==t?'on':''}" data-a="ptag" data-id="${t}">${e(t)}</button>`).join('')}</div><textarea id="ctext" maxlength="500" placeholder="What is on your mind?">${e(draft)}</textarea><div class="sub" style="line-height:1.5">Posting as ${e(me?.handle)}. Bullying and illegal content is removed. Enough member reports hide a post.</div><button class="go" data-a="send">Post</button></div>`]
-const d=(Date.now()-new Date(me.created_at))/864e5,nx=me.handle_changed_at?new Date(new Date(me.handle_changed_at).getTime()+30*864e5):null,lock=nx&&nx>new Date();
-return ['<h2>Profile</h2>',`<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px">${avh(me.handle,88)}<b style="font-size:22px">${e(me.handle)}</b><span class="sub">Member of ${COL}</span><span class="sub" style="color:var(--ok);font-weight:700">Account age: ${d<1?'today':d<30?(d|0)+' days':(d/30|0)+' months'}${d>=30?' - can vote in elections':''}</span></div><div class="list"><div class="card"><b>Change handle</b><input id="nhin" class="inp" maxlength="20" value="${e(nh||me.handle)}" ${lock?'disabled':''} aria-label="New handle"><div class="sub">${lock?'Next change on '+nx.toLocaleDateString():'You can change your handle once a month.'}</div><button class="go" data-a="savename" ${lock?'disabled':''}>Save handle</button></div><div class="sub" style="font-weight:700">Your posts</div>${mine.map(card).join('')||'<div class="sub">Nothing yet.</div>'}<button class="chip" data-a="signout" style="align-self:flex-start">Sign out</button></div>`]}
-function render(){const v=views();$('hd').innerHTML=v[0];$('view').innerHTML=v[1];$('nav').innerHTML=tab=='welcome'?'':T.map(t=>`<button class="${tab==t[0]?'on':''}" data-a="tab" data-id="${t[0]}">${I(t[2])}<span>${t[1]}</span></button>`).join('')}
-async function refresh(){await loadPosts();if(det!=null)await loadReps();if(tab=='me')await loadMine();render()}
-async function openOrCreate(){const s=slug(q);if(!s)return;if(!comms.some(c=>c.slug==s)){const{error}=await sb.from('communities').insert({slug:s,name:q.trim()});if(error){toast(s.length<2?'Name too short':error.message);return}await loadComms()}
-if(!joined.includes(s)){joined.push(s);saveJ()}flt=s;tab='home';q='';await refresh()}
-async function enter(){const h=H.trim();if(!/^[A-Za-z0-9_]{3,20}$/.test(h)){toast('Use 3-20 letters, numbers or _');return}
-const{data,error}=await sb.from('profiles').insert({id:uid,handle:h}).select().single();if(error){toast(error.code=='23505'?'That handle is taken':error.message);return}me=data;tab='home'}
-document.addEventListener('input',x=>{const t=x.target.id;if(t=='ctext')draft=x.target.value;if(t=='rtext')rd=x.target.value;if(t=='crt')cd=x.target.value;if(t=='hin')H=x.target.value;if(t=='nhin')nh=x.target.value;if(t=='q'){q=x.target.value;$('clist').innerHTML=clist()}});
-document.addEventListener('keydown',x=>{if(x.target.id=='q'&&x.key=='Enter')openOrCreate()});
-document.addEventListener('click',async x=>{const b=x.target.closest('[data-a]');if(!b||!ready&&b.dataset.a!='enter'&&b.dataset.a!='shuffle')return;const a=b.dataset.a,id=b.dataset.id,n=+id;
-if(a=='tab'){tab=id;det=null;window.scrollTo(0,0)}
+return m.map(c=>`<div class="card"><div class="cr"><div><b>${e(c.name)}</b><div class="sub">Under ${COL}</div></div><button class="sc" style="margin-left:auto" data-a="go" data-id="${c.slug}">Open</button></div></div>`).join('')+(s&&!comms.some(c=>c.slug==s)?`<button class="go" data-a="create">Create "${e(q.trim())}" under ${COL}</button>`:'')}
+const commv=()=>`<div class="list"><div class="hd2">Communities</div><div class="sub">Type a name to open it or create it</div><input id="q" class="inp" value="${e(q)}" placeholder="Type a community name" autocomplete="off"><div id="clist" class="list" style="padding:0">${clist()}</div></div>`;
+const nrow=n=>`<button class="nr ${n.is_read?'':'new'}" data-a="nopen" data-id="${n.id}"><span class="nd"></span><div><div class="nm">${e(n.msg)}</div><div class="sub">${e(n.snippet||'')}</div></div><span class="sub">${ago(n.created_at)}</span></button>`;
+const inbox=()=>`<div class="list"><div class="hd2">Inbox</div><div class="seg"><button class="${it==0?'on':''}" data-a="it" data-id="0">Alerts &amp; Replies</button><button class="${it==1?'on':''}" data-a="it" data-id="1">Messages</button></div>${it==0?(notes.length?`<button class="ghost" data-a="readall" style="align-self:flex-end">Mark all read</button>`+notes.map(nrow).join(''):'<div class="sub">Nothing yet. Replies and alerts show up here.</div>'):`<div class="soon"><h3 style="margin:0;font-size:22px">Messages are coming soon</h3><div class="sub" style="font-size:15px;line-height:1.5">Private chat with other students is on the way.</div><span class="pill t" style="font-size:12px;padding:5px 12px">COMING SOON</span></div>`}</div>`;
+const searchv=()=>`<div class="list"><div class="hd2">Search</div><input id="sq" class="inp" value="${e(sq)}" placeholder="Search titles and posts" autocomplete="off"><button class="go" data-a="dosearch">Search</button>${sr.map(p=>card(p)).join('')||(searched?'<div class="sub">No results.</div>':'')}</div>`;
+function prof(){const o=pu||me,own=!pu,d=(Date.now()-new Date(o.created_at))/864e5,lk=pp.reduce((s,p)=>s+Number(p.likes),0),age=d<1?'joined today':d<30?(d|0)+' days':(d/30|0)+' months',nx=own&&me.handle_changed_at?new Date(new Date(me.handle_changed_at).getTime()+30*864e5):null,lock=nx&&nx>new Date();
+return `<div class="list"><div class="ph">${avh(o.handle,72)}<b>${e(o.handle)}</b><span class="sub">Member of ${COL} - ${age}${own&&d>=30?' - can vote in elections':''}</span></div><div class="stats"><div><b>${pp.length}</b><span>Posts</span></div><div><b>${lk}</b><span>Likes received</span></div></div>${own?`<div class="box"><b>Change handle</b><input id="nhin" class="inp" maxlength="20" value="${e(nh||me.handle)}" ${lock?'disabled':''} aria-label="New handle"><div class="sub">${lock?'Next change on '+nx.toLocaleDateString():'You can change your handle once a month.'}</div><button class="go" data-a="savename" ${lock?'disabled style="opacity:.5"':''}>Save handle</button></div>`:`<button class="sc" data-a="tab" data-id="home" style="align-self:flex-start;height:36px">Back to feed</button>`}<div class="sub bold">${own?'Your posts':'Posts by '+e(o.handle)}</div>${pp.map(p=>card(p)).join('')||'<div class="sub">No posts yet.</div>'}${own?'<button class="ghost" data-a="signout">Sign out</button>':''}</div>`}
+function detail(){const p=xp;const bk='<button class="sc" data-a="back" style="align-self:flex-start;height:36px">Back</button>';if(!p)return `<div class="list">${bk}<div class="sub">This post is no longer available.</div></div>`;
+return `<div class="list">${bk}${card(p,true)}<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="sc" data-a="report">Report this post</button></div>${canMod(p)?`<div class="box"><b>Mod tools</b><div style="display:flex;flex-wrap:wrap;gap:6px"><button class="sc" data-a="pin" data-w="24">Pin 24h</button><button class="sc" data-a="pin" data-w="72">Pin 3 days</button><button class="sc" data-a="pin" data-w="168">Pin 7 days</button><button class="sc" data-a="unpin">Unpin</button><button class="sc" data-a="hide">Hide</button><button class="sc" data-a="pdel">Delete</button></div></div>`:''}<textarea id="rtext" maxlength="500" placeholder="Add a comment">${e(rd)}</textarea><button class="go" data-a="reply">Comment</button><div class="sub bold">${reps.length} comments</div>${ctree()||'<div class="sub">No comments yet. Start the discussion.</div>'}</div>`}
+function view(){if(tab=='login')return loginv();if(tab=='welcome')return welv();if(det!=null)return detail();if(tab=='home')return home();if(tab=='comm')return commv();if(tab=='post')return step?review():compose();if(tab=='inbox')return inbox();if(tab=='search')return searchv();return prof()}
+function render(){const lg=tab=='login'||tab=='welcome';$('top').style.display=lg?'none':'';if(!lg)hdr();$('view').innerHTML=view()}
+document.addEventListener('input',x=>{const t=x.target.id,v=x.target.value;
+if(t=='ttl'){ttl=v;$('tc').textContent=v.length+'/150'}
+else if(t=='bdy'){let s=v;if(wc(s)>1000){s=s.trim().split(/\s+/).slice(0,1000).join(' ');x.target.value=s}bd=s;$('wc').textContent=wc(s)+' words - up to 1,000 words'}
+else if(t=='rtext')rd=v;else if(t=='crt')cd=v;else if(t=='hin')H=v;else if(t=='nhin')nh=v;else if(t=='sq')sq=v;
+else if(t=='q'){q=v;$('clist').innerHTML=clist()}});
+document.addEventListener('keydown',async x=>{if(x.key!='Enter')return;if(x.target.id=='q'){await openOrCreate();render()}if(x.target.id=='sq'){await doSearch();render()}});
+document.addEventListener('click',async x=>{const b=x.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id,n=+id;
+if(!ready&&a!='enter'&&a!='shuffle'&&a!='gsign')return;
+try{
+if(a=='tab'){tab=id;det=null;pu=null;window.scrollTo(0,0);if(id=='me')await loadUserPosts(uid)}
 else if(a=='flt'){flt=id;await loadPosts()}
-else if(a=='like'||a=='dis'){const w=a=='like'?1:-1,p=posts.find(z=>z.id==n);if(p.my_vote==w)await sb.from('votes').delete().eq('post_id',n).eq('user_id',uid);else await sb.from('votes').upsert({post_id:n,user_id:uid,v:w});await loadPosts()}
-else if(a=='open'){det=n;await loadReps();window.scrollTo(0,0)}
+else if(a=='ftag'){ftag=id;await loadPosts()}
+else if(a=='sort'){sort=id;await loadPosts()}
+else if(a=='like'||a=='dis'){const w=a=='like'?1:-1,p=fp(n);if(p.my_vote==w)await sb.from('votes').delete().eq('post_id',n).eq('user_id',uid);else await sb.from('votes').upsert({post_id:n,user_id:uid,v:w});await rf()}
+else if(a=='open')await openPost(n);
 else if(a=='back')det=null;
-else if(a=='reply'||a=='csend'){const top=a=='reply',t=(top?rd:cd).trim();if(!t){toast('Write something first');return}const{error}=await sb.from('replies').insert({post_id:det,parent_id:top?null:rto,body:t});if(error){toast(error.message);return}if(top)rd='';else{cd='';rto=0}await loadReps();await loadPosts()}
+else if(a=='reply'||a=='csend'){const top=a=='reply',t=(top?rd:cd).trim();if(!t){toast('Write something first');return}const{error}=await sb.from('replies').insert({post_id:det,parent_id:top?null:rto,body:t});if(error){toast(error.message);return}if(top)rd='';else{cd='';rto=0}await rf()}
 else if(a=='cvote'){const w=+b.dataset.w,r=reps.find(z=>z.id==n);if(r.my_vote==w)await sb.from('comment_votes').delete().eq('reply_id',n).eq('user_id',uid);else await sb.from('comment_votes').upsert({reply_id:n,user_id:uid,v:w});await loadReps()}
 else if(a=='rto'){rto=rto==n?0:n;cd=''}
 else if(a=='fold')collapsed[n]=!collapsed[n];
 else if(a=='report'){const{error}=await sb.from('reports').insert({post_id:det});toast(error?'You already reported this':'Reported. Enough reports hide it.')}
-else if(a=='share'){const u=location.href.split('#')[0];try{if(navigator.share)await navigator.share({title:'gogossip',url:u});else{await navigator.clipboard.writeText(u);toast('Link copied')}}catch(x){}return}
-else if(a=='repost'){rp=n;$('sheetbody').innerHTML='<b style="font-size:18px">Repost to</b>'+comms.map(c=>`<button class="pick" data-a="rpto" data-id="${c.slug}">${e(c.name)}</button>`).join('')+'<button class="chip" data-a="close">Cancel</button>';$('sheet').classList.add('show');return}
-else if(a=='rpto'){const o=posts.find(p=>p.id==rp),c=comms.find(z=>z.slug==id);$('sheet').classList.remove('show');const{error}=await sb.from('posts').insert({community_id:c.id,body:o.body,tag:o.tag,repost_of:o.id});if(error){toast(error.message);return}toast('Reposted to '+c.name);tab='home';flt='all';await loadPosts()}
+else if(a=='share'){const u=location.href.split('#')[0];try{if(navigator.share)await navigator.share({title:'gogossip',url:u});else{await navigator.clipboard.writeText(u);toast('Link copied')}}catch(z){}return}
+else if(a=='repost'){rp=n;$('sheetbody').innerHTML='<b style="font-size:18px">Repost to</b>'+rad('Whole college',false,'rpto','')+comms.map(c=>rad(c.name,false,'rpto',c.slug)).join('')+'<button class="ghost" data-a="close">Cancel</button>';$('sheet').classList.add('show');return}
+else if(a=='rpto'){const o=fp(rp),c=comms.find(z=>z.slug==id);$('sheet').classList.remove('show');const{error}=await sb.from('posts').insert({community_id:c?c.id:null,title:o.title,body:o.body,tag:o.tag,repost_of:o.id});if(error){toast(error.message);return}toast('Reposted');tab='home';det=null;flt='all';ftag='all';await loadPosts()}
 else if(a=='close'){$('sheet').classList.remove('show');return}
-else if(a=='go'){q=id;await openOrCreate();return}
-else if(a=='create'){await openOrCreate();return}
+else if(a=='go'){q=id;await openOrCreate()}
+else if(a=='create')await openOrCreate();
+else if(a=='compose'){tab='post';step=0;det=null;window.scrollTo(0,0)}
 else if(a=='pick')pick=id;
-else if(a=='send'){const t=draft.trim();if(!t){toast('Write something first');return}const c=comms.find(z=>z.slug==pick),{error}=await sb.from('posts').insert({community_id:c.id,body:t,tag:tg});if(error){toast(error.message);return}draft='';tg='General';tab='home';flt='all';toast('Posted anonymously');await loadPosts()}
-else if(a=='ftag'){ftag=id;await loadPosts()}
 else if(a=='ptag')tg=id;
-else if(a=='sort'){sort=id;await loadPosts()}
-else if(a=='pin'||a=='unpin'||a=='hide'||a=='pdel'||a=='cdel'){const f=a=='pin'?['pin_post',{pid:det,hours:+b.dataset.w}]:a=='unpin'?['unpin_post',{pid:det}]:a=='hide'?['mod_set_hidden',{pid:det,h:true}]:a=='pdel'?['mod_delete_post',{pid:det}]:['mod_delete_comment',{rid:n}];
-if((a=='pdel'||a=='hide'||a=='cdel')&&!confirm('Are you sure?'))return;const r=await sb.rpc(f[0],f[1]);if(r.error){toast(r.error.message);return}toast('Done');if(a=='hide'||a=='pdel')det=null;await loadPosts();if(det!=null)await loadReps()}
-else if(a=='shuffle')H=genH();
-else if(a=='enter'){await enter();if(tab!='home')return;await loadPosts()}
+else if(a=='review'){if(!ttl.trim()){toast('Add a title first');return}step=1;window.scrollTo(0,0)}
+else if(a=='edit')step=0;
+else if(a=='send'){const c=comms.find(z=>z.slug==pick),{error}=await sb.from('posts').insert({community_id:c?c.id:null,title:ttl.trim(),body:bd.trim()||null,tag:tg});if(error){toast(error.message);return}ttl='';bd='';pick='';tg='General';step=0;tab='home';flt='all';ftag='all';toast('Posted');await loadPosts()}
+else if(a=='user')await showUser(id);
+else if(a=='inbox'){tab='inbox';det=null;it=0;await loadNotes()}
+else if(a=='it')it=n;
+else if(a=='nopen'){const nt=notes.find(z=>z.id==n);if(nt&&!nt.is_read){await sb.from('notifications').update({is_read:true}).eq('id',n);nt.is_read=true}if(nt&&nt.post_id){tab='home';await openPost(nt.post_id)}}
+else if(a=='readall'){await sb.from('notifications').update({is_read:true}).eq('user_id',uid).eq('is_read',false);await loadNotes()}
+else if(a=='search'){tab='search';det=null;window.scrollTo(0,0)}
+else if(a=='dosearch')await doSearch();
 else if(a=='gsign'){await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});return}
 else if(a=='signout'){await sb.auth.signOut();location.reload();return}
 else if(a=='savename'){const h=nh.trim();if(!h||h==me.handle){toast('Type a new handle');return}if(!/^[A-Za-z0-9_]{3,20}$/.test(h)){toast('Use 3-20 letters, numbers or _');return}const{data,error}=await sb.from('profiles').update({handle:h}).eq('id',uid).select().single();if(error){toast(error.code=='23505'?'That handle is taken':error.message.includes('once')?'You can change it once a month':error.message);return}me=data;nh='';toast('Handle changed')}
-if(tab=='me')await loadMine();
+else if(a=='shuffle')H=genH();
+else if(a=='enter'){await enter();if(tab!='home')return;await Promise.all([loadPosts(),loadMods(),loadNotes()])}
+else if(a=='pin'||a=='unpin'||a=='hide'||a=='pdel'||a=='cdel'){const f=a=='pin'?['pin_post',{pid:det,hours:+b.dataset.w}]:a=='unpin'?['unpin_post',{pid:det}]:a=='hide'?['mod_set_hidden',{pid:det,h:true}]:a=='pdel'?['mod_delete_post',{pid:det}]:['mod_delete_comment',{rid:n}];
+if((a=='pdel'||a=='hide'||a=='cdel')&&!confirm('Are you sure?'))return;const r=await sb.rpc(f[0],f[1]);if(r.error){toast(r.error.message);return}toast('Done');if(a=='hide'||a=='pdel')det=null;await rf()}
+}catch(err){toast(String(err.message||err))}
 render()});
-$('sheet').addEventListener('click',x=>{if(x.target.id=='sheet')x.target.classList.remove('show')});
-(async function boot(){if(!sb||location.protocol=='file:'){ready=1;$('view').innerHTML='<div class="list"><div class="card"><b>Setup needed</b><div class="sub" style="line-height:1.6">'+(!sb?'Open index.html in a text editor. Replace YOUR_SUPABASE_URL and YOUR_SUPABASE_ANON_KEY with your Supabase values.':'This page was opened as a file. Google login needs a web address. Host the folder (see README) or run it on localhost.')+'</div></div></div>';return}try{const{data:{session}}=await sb.auth.getSession();if(!session){tab='login';ready=1;render();return}
-uid=session.user.id;const{data:pr}=await sb.from('profiles').select('*').eq('id',uid).maybeSingle();await loadComms();if(pr){me=pr;await loadMods();await loadPosts()}else tab='welcome';ready=1;render()}catch(x){ready=1;$('view').innerHTML='<div class="list"><div class="sub">Could not connect. Check the Supabase URL and key.</div></div>'}})();
+let ly=0;addEventListener('scroll',()=>{const y=scrollY,t=$('top');if(y>ly+8&&y>90)t.classList.add('hide');else if(y<ly-8||y<=90)t.classList.remove('hide');ly=y},{passive:true});
+(async function boot(){if(!sb||location.protocol=='file:'){ready=1;$('top').style.display='none';$('view').innerHTML='<div class="list"><div class="box"><b>Setup needed</b><div class="sub" style="line-height:1.6">'+(!sb?'Open index.html in a text editor. Replace YOUR_SUPABASE_URL and YOUR_SUPABASE_ANON_KEY with your Supabase values.':'This page was opened as a file. Google login needs a web address. Host the folder or run it on localhost.')+'</div></div></div>';return}
+try{const{data:{session}}=await sb.auth.getSession();if(!session){tab='login';ready=1;render();return}
+uid=session.user.id;const{data:pr}=await sb.from('profiles').select('*').eq('id',uid).maybeSingle();await loadComms();if(pr){me=pr;await Promise.all([loadMods(),loadNotes(),loadPosts()])}else tab='welcome';ready=1;render();
+setInterval(async()=>{if(me){await loadNotes();hdr()}},60000)}catch(x){ready=1;$('view').innerHTML='<div class="list"><div class="sub">Could not connect. Check the Supabase URL and key.</div></div>'}})();
 </script>
 </body>
 </html>
