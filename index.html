@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>gogossip - Sherwood</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%237CF5C8%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#FFF6EC;--card:#fff;--line:#F1E1D2;--tx:#231B33;--mut:#6B6280;--pri:#6C3BFF;--pk:#E8307A;--ok:#0A8F6F;--grad:linear-gradient(135deg,#6C3BFF,#E8307A);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Space Grotesk',system-ui,sans-serif;font-size:15px}
+button{font-family:inherit;color:inherit;cursor:pointer}
+#app{max-width:480px;margin:0 auto;padding-bottom:90px;min-height:100vh}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding:16px 16px 4px}
+h1,h2{margin:0;font-size:26px}
+.brand{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:13px;color:var(--mut)}
+.row{display:flex;gap:8px;overflow-x:auto;padding:8px 16px}
+.chip{flex:none;height:44px;padding:0 16px;border-radius:22px;border:2px solid var(--line);background:#fff;font-size:14px;font-weight:500;white-space:nowrap}
+.chip.on{background:var(--grad);color:#fff;border-color:transparent;font-weight:700}
+.list{display:flex;flex-direction:column;gap:12px;padding:8px 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 0 var(--line)}
+.who{display:flex;align-items:center;gap:10px}
+.av{width:36px;height:36px;border-radius:50%;background:#FFD6E7;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none;color:var(--tx)}
+.who b{display:block;font-size:15px}.who span{font-size:12px;color:var(--mut)}
+.tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:12px}
+.txt{line-height:1.45;overflow-wrap:anywhere}
+.rp{font-size:12px;color:var(--pri);font-weight:700}
+.acts{display:flex;gap:4px;flex-wrap:wrap}
+.act{height:44px;padding:0 10px;border-radius:22px;border:2px solid var(--line);background:#fff;color:var(--mut);display:flex;align-items:center;gap:5px;font-size:13px;font-weight:700}
+.act.on{color:var(--ok);border-color:#14C8A0;background:#E3FBF3}
+.act.d.on{color:#C71F55;border-color:var(--pk);background:#FFE8F0}
+.act svg{width:18px;height:18px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;background:#fff;border-top:2px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));z-index:6}
+nav button{flex:1;background:none;border:0;color:var(--mut);font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:48px}
+nav button.on{color:var(--pri)}nav svg{width:22px;height:22px}
+.pick{height:48px;border-radius:14px;border:2px solid var(--line);background:#fff;display:flex;align-items:center;padding:0 14px;width:100%;text-align:left;font-size:15px;font-weight:500}
+.pick.on{background:var(--grad);color:#fff;border-color:transparent;font-weight:700}
+.pick small{margin-left:auto;opacity:.85}
+textarea,.inp{width:100%;border-radius:16px;border:2px solid var(--line);background:#fff;color:var(--tx);padding:14px;font:16px/1.5 inherit;font-family:inherit;resize:none}
+textarea{height:160px}.inp{height:48px;border-radius:24px;padding:0 18px}
+textarea:focus,.inp:focus{outline:2px solid var(--pri);border-color:transparent}
+.go{height:48px;border-radius:24px;border:0;background:var(--grad);color:#fff;font-weight:700;font-size:16px;padding:0 24px}
+.go:disabled{opacity:.5}
+.ghost{height:44px;border-radius:22px;border:2px solid var(--pri);background:none;color:var(--pri);font-weight:700;padding:0 16px;flex:none}
+.gbtn{height:56px;border-radius:28px;border:2px solid var(--line);background:#fff;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:12px}
+.item{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.item small{color:var(--mut);display:block;font-size:13px}
+.stats{display:flex;gap:8px;padding:8px 16px}.stats div{flex:1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.stats b{font-size:22px;display:block}.stats span{font-size:12px;color:var(--mut)}
+.cm{padding:6px 0}
+.pt{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:10px;background:#EFE7FF;color:#4B22C9;align-self:flex-start}
+.kids{margin-left:13px;padding-left:12px;border-left:2px solid #E3CFF0}.kids.flat{margin-left:0;padding-left:8px}
+.mini{width:44px;height:44px;border:0;background:none;color:var(--mut);font-size:22px;font-weight:700}
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--tx);color:#fff;padding:12px 18px;border-radius:24px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9;max-width:90%;text-align:center}
+#toast.show{opacity:1}
+#sheet{position:fixed;inset:0;background:rgba(35,27,51,.5);z-index:8;display:none;align-items:flex-end;justify-content:center}
+#sheet.show{display:flex}
+#sheet>div{width:100%;max-width:480px;background:var(--bg);border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px}
+@media(min-width:900px){
+#app{max-width:680px;padding-top:72px;padding-bottom:48px}
+nav{top:0;bottom:auto;max-width:680px;border-top:0;border-bottom:2px solid var(--line);padding:8px 16px}
+nav button{flex-direction:row;justify-content:center;gap:8px;font-size:14px}
+header{top:72px}
+.row{flex-wrap:wrap;overflow:visible}
+#sheet{align-items:center}
+#sheet>div{max-width:420px;border-radius:20px}
+#toast{bottom:32px}
+}
+</style>
+</head>
+<body>
+<div id="app"><header id="hd"></header><div id="view"></div></div>
+<nav id="nav"></nav><div id="toast"></div><div id="sheet"><div id="sheetbody"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const SB_URL='https://agdpjenfwvsqgyeheqoy.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnZHBqZW5md3ZzcWd5ZWhlcW95Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwODI4NjMsImV4cCI6MjEwNzY1ODg2M30.0JFAqQ9kMUX0JlnA8cqUfJGagXypJAdnMM-tuOD5NzE',COL='Sherwood';
+const sb=SB_URL.startsWith('http')?supabase.createClient(SB_URL,SB_KEY):null;
+const AD=['quiet','soft','calm','neon','pixel','amber','lazy','tiny','mellow','brave'],AN=['otter','fox','moth','heron','comet','badger','lynx','panda','falcon','yak'];
+const genH=()=>AD[Math.random()*10|0]+'_'+AN[Math.random()*10|0]+'_'+(10+Math.random()*90|0);
+const e=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slug=s=>s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const ago=t=>{const m=(Date.now()-new Date(t))/6e4;return m<1?'just now':m<60?(m|0)+' min':m<1440?(m/60|0)+' hr':(m/1440|0)+' d'};
+const hue=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))%360;return h};
+const avh=(n,z=36)=>`<div class="av" style="width:${z}px;height:${z}px;font-size:${z/2.4|0}px;background:hsl(${hue(n)} 90% 76%)">${e(String(n||'?')[0]).toUpperCase()}</div>`;
+const I=d=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>';
+const P={up:'<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>',cm:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',sh:'<path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/>',rp:'<path d="M17 1l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/>',home:'<path d="M4 11l8-7 8 7v9H4z"/>',grp:'<circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M15 15c3 0 6 1 6 4"/>',add:'<path d="M12 5v14M5 12h14"/>',usr:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>'};
+const T=[['home','Home',P.home],['comm','Communities',P.grp],['post','Post',P.add],['me','Profile',P.usr]];
+let uid=null,me=null,H=genH(),comms=[],posts=[],reps=[],mine=[],tab='home',flt='all',det=null,rp=null,pick='sherwood',draft='',rd='',q='',ready=0,nh='',collapsed={},rto=0,cd='',sort='hot',cmods=[],tg='General',ftag='all';
+let joined=['sherwood'];try{joined=JSON.parse(localStorage.getItem('j'))||joined}catch(x){}
+const saveJ=()=>{try{localStorage.setItem('j',JSON.stringify(joined))}catch(x){}};
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.k);toast.k=setTimeout(()=>t.classList.remove('show'),2200)}
+const $=id=>document.getElementById(id);
+async function loadComms(){const{data}=await sb.from('communities').select('*').order('name');comms=data||[]}
+async function loadPosts(){let r=sb.from('feed').select('*').order('pinned',{ascending:false});if(flt!='all')r=r.eq('community_slug',flt);if(ftag!='all')r=r.eq('tag',ftag);r=sort=='new'?r.order('created_at',{ascending:false}):sort=='top'?r.order('score',{ascending:false}).order('created_at',{ascending:false}):r.order('hot',{ascending:false});const{data,error}=await r.limit(60);if(error)toast(error.message);posts=data||[]}
+async function loadMods(){const{data}=await sb.from('community_mods').select('community_id').eq('user_id',uid);cmods=(data||[]).map(x=>x.community_id)}
+const TAGS=['General','1st year','2nd year','3rd year','Passed out','Hostellers','Faculty'];
+const canMod=p=>!!p&&!!me&&(me.role=='admin'||cmods.includes(p.community_id));
+async function loadReps(){const{data}=await sb.from('comments').select('*').eq('post_id',det).order('created_at');reps=data||[]}
+async function loadMine(){const{data}=await sb.from('feed').select('*').eq('author',uid).order('created_at',{ascending:false});mine=data||[]}
+function card(p){const v=p.my_vote||0,own=p.author==uid,h=hue(p.community_slug);
+return `<article class="card" style="border-top:4px solid hsl(${h} 85% 58%)"><div class="who">${avh(p.handle)}<div><b>${e(p.handle)}${own?' (you)':''}</b><span>${ago(p.created_at)}</span></div><span class="tag" style="margin-left:auto;background:hsl(${h} 80% 92%);color:hsl(${h} 65% 28%)">${e(p.community_name)}</span></div>${p.pinned?'<div class="rp" style="color:var(--pk)">Pinned by mods</div>':''}${p.repost_of?'<div class="rp">Reposted</div>':''}<span class="pt">${e(p.tag)}</span><div class="txt">${e(p.body)}</div>
+<div class="acts"><button class="act ${v==1?'on':''}" data-a="like" data-id="${p.id}" aria-label="Like">${I(P.up)}${p.likes}</button><button class="act d ${v==-1?'on':''}" data-a="dis" data-id="${p.id}" aria-label="Dislike"><span style="display:flex;transform:rotate(180deg)">${I(P.up)}</span>${p.dislikes}</button><button class="act" data-a="open" data-id="${p.id}" aria-label="Comments">${I(P.cm)}${p.replies}</button><button class="act" data-a="share" data-id="${p.id}" aria-label="Share">${I(P.sh)}</button><button class="act" data-a="repost" data-id="${p.id}" aria-label="Repost to another community">${I(P.rp)}</button></div></article>`}
+function ctree(){const by={};reps.forEach(r=>(by[r.parent_id||0]=by[r.parent_id||0]||[]).push(r));const sc=r=>r.likes-r.dislikes;Object.values(by).forEach(a=>a.sort((x,y)=>sc(y)-sc(x)||new Date(x.created_at)-new Date(y.created_at)));
+const draw=(pid,d)=>(by[pid]||[]).map(r=>{const v=r.my_vote||0,c=collapsed[r.id],k=by[r.id]||[];
+return `<div class="cm"><div class="who" style="gap:8px">${avh(r.handle,26)}<b style="font-size:14px">${e(r.handle)}${r.author==uid?' (you)':''}</b><span>${ago(r.created_at)}${c&&k.length?' - '+k.length+' hidden':''}</span><button class="mini" style="margin-left:auto" data-a="fold" data-id="${r.id}" aria-label="Collapse thread">${c?'+':'-'}</button></div>${c?'':`<div class="txt" style="margin:2px 0 4px 34px">${e(r.body)}</div><div class="acts" style="margin-left:34px"><button class="act ${v==1?'on':''}" data-a="cvote" data-w="1" data-id="${r.id}" aria-label="Like">${I(P.up)}${r.likes}</button><button class="act d ${v==-1?'on':''}" data-a="cvote" data-w="-1" data-id="${r.id}" aria-label="Dislike"><span style="display:flex;transform:rotate(180deg)">${I(P.up)}</span>${r.dislikes}</button><button class="act" data-a="rto" data-id="${r.id}">Reply</button>${canMod(posts.find(x=>x.id==det))?`<button class="act" data-a="cdel" data-id="${r.id}">Delete</button>`:''}</div>${rto==r.id?`<div style="margin:8px 0 0 34px;display:flex;flex-direction:column;gap:8px"><textarea id="crt" maxlength="300" style="height:80px" placeholder="Reply to ${e(r.handle)}">${e(cd)}</textarea><div style="display:flex;gap:8px"><button class="go" data-a="csend">Reply</button><button class="chip" data-a="rto" data-id="0">Cancel</button></div></div>`:''}${k.length?`<div class="kids${d>=4?' flat':''}">${draw(r.id,d+1)}</div>`:''}`}</div>`}).join('');
+return draw(0,0)}
+function clist(){const s=slug(q),ql=q.trim().toLowerCase(),m=comms.filter(c=>!s||c.slug.includes(s)||c.name.toLowerCase().includes(ql));
+return m.map(c=>`<div class="card"><div class="who"><div><b>${e(c.name)}</b><span>${c.slug=='sherwood'?'Main college community':'Under '+COL}</span></div><button class="chip" style="margin-left:auto" data-a="go" data-id="${c.slug}">Open</button></div></div>`).join('')+(s&&!comms.some(c=>c.slug==s)?`<button class="go" data-a="create">Create "${e(q.trim())}" under ${COL}</button>`:'')}
+function views(){
+if(tab=='login')return ['',`<div style="min-height:85vh;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:28px"><h1 style="font-size:46px"><span class="brand">gogossip</span></h1><p style="font-size:18px;line-height:1.5;margin:0">Say what you really think at ${COL}. Real community, anonymous handle.</p><button class="gbtn" data-a="gsign"><b style="font-size:20px;color:#4285F4">G</b>Continue with Google</button><div class="sub" style="line-height:1.5">Google only confirms you are a real person. Your name and email are never shown to anyone. You post with a handle.</div></div>`];
+if(tab=='welcome')return ['',`<div style="min-height:85vh;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:28px"><div class="sub">Almost there</div><h1 style="font-size:34px"><span class="brand">Pick your handle</span></h1><p class="sub" style="font-size:15px;line-height:1.5;margin:0">This is the name everyone sees. Letters, numbers and _ only, 3-20 characters. You can change it once a month.</p><input id="hin" class="inp" maxlength="20" value="${e(H)}" aria-label="Handle"><button class="chip" data-a="shuffle">Shuffle a random one</button><button class="go" data-a="enter">Enter ${COL}</button></div>`];
+if(det!=null){const p=posts.find(x=>x.id==det);const bk='<button class="chip" data-a="back">Back</button>';if(!p)return [bk,'<div class="list"><div class="sub">This post is no longer available.</div></div>'];
+return [bk,`<div class="list">${card(p)}<button class="chip" data-a="report" style="align-self:flex-start">Report this post</button>${canMod(p)?`<div class="card"><b>Mod tools</b><div style="display:flex;flex-wrap:wrap;gap:8px"><button class="chip" data-a="pin" data-w="24">Pin 24h</button><button class="chip" data-a="pin" data-w="72">Pin 3 days</button><button class="chip" data-a="pin" data-w="168">Pin 7 days</button><button class="chip" data-a="unpin">Unpin</button><button class="chip" data-a="hide">Hide</button><button class="chip" data-a="pdel">Delete</button></div></div>`:''}<textarea id="rtext" maxlength="300" style="height:84px" placeholder="Add a comment (anonymous)">${e(rd)}</textarea><button class="go" data-a="reply">Comment</button><div class="sub" style="font-weight:700">${reps.length} comments</div>${ctree()||'<div class="sub">No comments yet. Start the discussion.</div>'}</div>`]}
+if(tab=='home'){const chips=[['all','All'],...comms.filter(c=>joined.includes(c.slug)||c.slug==flt).map(c=>[c.slug,c.name])];
+return [`<h1><span class="brand">gogossip</span></h1><div class="sub">${COL}</div>`,`<div class="row">${chips.map(c=>`<button class="chip ${flt==c[0]?'on':''}" data-a="flt" data-id="${c[0]}">${e(c[1])}</button>`).join('')}</div><div class="row" style="padding-top:0">${[['hot','Hot'],['new','New'],['top','Top']].map(c=>`<button class="chip ${sort==c[0]?'on':''}" data-a="sort" data-id="${c[0]}">${c[1]}</button>`).join('')}</div><div class="row" style="padding-top:0">${['all',...TAGS].map(t=>`<button class="chip ${ftag==t?'on':''}" data-a="ftag" data-id="${t}">${t=='all'?'All tags':e(t)}</button>`).join('')}</div><div class="list">${!ready?'<div class="sub">Loading...</div>':posts.map(card).join('')||'<div class="sub">No posts yet. Be the first.</div>'}</div>`]}
+if(tab=='comm')return ['<h1>Communities</h1><div class="sub">Type a name to open it or create it</div>',`<div class="list"><input id="q" value="${e(q)}" placeholder="Type a community name" autocomplete="off" style="height:48px;border-radius:24px;border:1px solid var(--line);background:var(--card);color:var(--tx);padding:0 18px;font:16px inherit;font-family:inherit;width:100%"><div id="clist" class="list" style="padding:0">${clist()}</div><div class="sub">Mod and Vice Mod elections arrive once your community grows.</div></div>`]
+if(tab=='post')return ['<h2>New post</h2>',`<div class="list"><div class="sub">Post to</div>${comms.map(c=>`<button class="pick ${pick==c.slug?'on':''}" data-a="pick" data-id="${c.slug}">${e(c.name)}${c.slug=='sherwood'?'<small>Main</small>':''}</button>`).join('')}<div class="sub">Tag</div><div style="display:flex;flex-wrap:wrap;gap:8px">${TAGS.map(t=>`<button class="chip ${tg==t?'on':''}" data-a="ptag" data-id="${t}">${e(t)}</button>`).join('')}</div><textarea id="ctext" maxlength="500" placeholder="What is on your mind?">${e(draft)}</textarea><div class="sub" style="line-height:1.5">Posting as ${e(me?.handle)}. Bullying and illegal content is removed. Enough member reports hide a post.</div><button class="go" data-a="send">Post</button></div>`]
+const d=(Date.now()-new Date(me.created_at))/864e5,nx=me.handle_changed_at?new Date(new Date(me.handle_changed_at).getTime()+30*864e5):null,lock=nx&&nx>new Date();
+return ['<h2>Profile</h2>',`<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px">${avh(me.handle,88)}<b style="font-size:22px">${e(me.handle)}</b><span class="sub">Member of ${COL}</span><span class="sub" style="color:var(--ok);font-weight:700">Account age: ${d<1?'today':d<30?(d|0)+' days':(d/30|0)+' months'}${d>=30?' - can vote in elections':''}</span></div><div class="list"><div class="card"><b>Change handle</b><input id="nhin" class="inp" maxlength="20" value="${e(nh||me.handle)}" ${lock?'disabled':''} aria-label="New handle"><div class="sub">${lock?'Next change on '+nx.toLocaleDateString():'You can change your handle once a month.'}</div><button class="go" data-a="savename" ${lock?'disabled':''}>Save handle</button></div><div class="sub" style="font-weight:700">Your posts</div>${mine.map(card).join('')||'<div class="sub">Nothing yet.</div>'}<button class="chip" data-a="signout" style="align-self:flex-start">Sign out</button></div>`]}
+function render(){const v=views();$('hd').innerHTML=v[0];$('view').innerHTML=v[1];$('nav').innerHTML=tab=='welcome'?'':T.map(t=>`<button class="${tab==t[0]?'on':''}" data-a="tab" data-id="${t[0]}">${I(t[2])}<span>${t[1]}</span></button>`).join('')}
+async function refresh(){await loadPosts();if(det!=null)await loadReps();if(tab=='me')await loadMine();render()}
+async function openOrCreate(){const s=slug(q);if(!s)return;if(!comms.some(c=>c.slug==s)){const{error}=await sb.from('communities').insert({slug:s,name:q.trim()});if(error){toast(s.length<2?'Name too short':error.message);return}await loadComms()}
+if(!joined.includes(s)){joined.push(s);saveJ()}flt=s;tab='home';q='';await refresh()}
+async function enter(){const h=H.trim();if(!/^[A-Za-z0-9_]{3,20}$/.test(h)){toast('Use 3-20 letters, numbers or _');return}
+const{data,error}=await sb.from('profiles').insert({id:uid,handle:h}).select().single();if(error){toast(error.code=='23505'?'That handle is taken':error.message);return}me=data;tab='home'}
+document.addEventListener('input',x=>{const t=x.target.id;if(t=='ctext')draft=x.target.value;if(t=='rtext')rd=x.target.value;if(t=='crt')cd=x.target.value;if(t=='hin')H=x.target.value;if(t=='nhin')nh=x.target.value;if(t=='q'){q=x.target.value;$('clist').innerHTML=clist()}});
+document.addEventListener('keydown',x=>{if(x.target.id=='q'&&x.key=='Enter')openOrCreate()});
+document.addEventListener('click',async x=>{const b=x.target.closest('[data-a]');if(!b||!ready&&b.dataset.a!='enter'&&b.dataset.a!='shuffle')return;const a=b.dataset.a,id=b.dataset.id,n=+id;
+if(a=='tab'){tab=id;det=null;window.scrollTo(0,0)}
+else if(a=='flt'){flt=id;await loadPosts()}
+else if(a=='like'||a=='dis'){const w=a=='like'?1:-1,p=posts.find(z=>z.id==n);if(p.my_vote==w)await sb.from('votes').delete().eq('post_id',n).eq('user_id',uid);else await sb.from('votes').upsert({post_id:n,user_id:uid,v:w});await loadPosts()}
+else if(a=='open'){det=n;await loadReps();window.scrollTo(0,0)}
+else if(a=='back')det=null;
+else if(a=='reply'||a=='csend'){const top=a=='reply',t=(top?rd:cd).trim();if(!t){toast('Write something first');return}const{error}=await sb.from('replies').insert({post_id:det,parent_id:top?null:rto,body:t});if(error){toast(error.message);return}if(top)rd='';else{cd='';rto=0}await loadReps();await loadPosts()}
+else if(a=='cvote'){const w=+b.dataset.w,r=reps.find(z=>z.id==n);if(r.my_vote==w)await sb.from('comment_votes').delete().eq('reply_id',n).eq('user_id',uid);else await sb.from('comment_votes').upsert({reply_id:n,user_id:uid,v:w});await loadReps()}
+else if(a=='rto'){rto=rto==n?0:n;cd=''}
+else if(a=='fold')collapsed[n]=!collapsed[n];
+else if(a=='report'){const{error}=await sb.from('reports').insert({post_id:det});toast(error?'You already reported this':'Reported. Enough reports hide it.')}
+else if(a=='share'){const u=location.href.split('#')[0];try{if(navigator.share)await navigator.share({title:'gogossip',url:u});else{await navigator.clipboard.writeText(u);toast('Link copied')}}catch(x){}return}
+else if(a=='repost'){rp=n;$('sheetbody').innerHTML='<b style="font-size:18px">Repost to</b>'+comms.map(c=>`<button class="pick" data-a="rpto" data-id="${c.slug}">${e(c.name)}</button>`).join('')+'<button class="chip" data-a="close">Cancel</button>';$('sheet').classList.add('show');return}
+else if(a=='rpto'){const o=posts.find(p=>p.id==rp),c=comms.find(z=>z.slug==id);$('sheet').classList.remove('show');const{error}=await sb.from('posts').insert({community_id:c.id,body:o.body,tag:o.tag,repost_of:o.id});if(error){toast(error.message);return}toast('Reposted to '+c.name);tab='home';flt='all';await loadPosts()}
+else if(a=='close'){$('sheet').classList.remove('show');return}
+else if(a=='go'){q=id;await openOrCreate();return}
+else if(a=='create'){await openOrCreate();return}
+else if(a=='pick')pick=id;
+else if(a=='send'){const t=draft.trim();if(!t){toast('Write something first');return}const c=comms.find(z=>z.slug==pick),{error}=await sb.from('posts').insert({community_id:c.id,body:t,tag:tg});if(error){toast(error.message);return}draft='';tg='General';tab='home';flt='all';toast('Posted anonymously');await loadPosts()}
+else if(a=='ftag'){ftag=id;await loadPosts()}
+else if(a=='ptag')tg=id;
+else if(a=='sort'){sort=id;await loadPosts()}
+else if(a=='pin'||a=='unpin'||a=='hide'||a=='pdel'||a=='cdel'){const f=a=='pin'?['pin_post',{pid:det,hours:+b.dataset.w}]:a=='unpin'?['unpin_post',{pid:det}]:a=='hide'?['mod_set_hidden',{pid:det,h:true}]:a=='pdel'?['mod_delete_post',{pid:det}]:['mod_delete_comment',{rid:n}];
+if((a=='pdel'||a=='hide'||a=='cdel')&&!confirm('Are you sure?'))return;const r=await sb.rpc(f[0],f[1]);if(r.error){toast(r.error.message);return}toast('Done');if(a=='hide'||a=='pdel')det=null;await loadPosts();if(det!=null)await loadReps()}
+else if(a=='shuffle')H=genH();
+else if(a=='enter'){await enter();if(tab!='home')return;await loadPosts()}
+else if(a=='gsign'){await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});return}
+else if(a=='signout'){await sb.auth.signOut();location.reload();return}
+else if(a=='savename'){const h=nh.trim();if(!h||h==me.handle){toast('Type a new handle');return}if(!/^[A-Za-z0-9_]{3,20}$/.test(h)){toast('Use 3-20 letters, numbers or _');return}const{data,error}=await sb.from('profiles').update({handle:h}).eq('id',uid).select().single();if(error){toast(error.code=='23505'?'That handle is taken':error.message.includes('once')?'You can change it once a month':error.message);return}me=data;nh='';toast('Handle changed')}
+if(tab=='me')await loadMine();
+render()});
+$('sheet').addEventListener('click',x=>{if(x.target.id=='sheet')x.target.classList.remove('show')});
+(async function boot(){if(!sb||location.protocol=='file:'){ready=1;$('view').innerHTML='<div class="list"><div class="card"><b>Setup needed</b><div class="sub" style="line-height:1.6">'+(!sb?'Open index.html in a text editor. Replace YOUR_SUPABASE_URL and YOUR_SUPABASE_ANON_KEY with your Supabase values.':'This page was opened as a file. Google login needs a web address. Host the folder (see README) or run it on localhost.')+'</div></div></div>';return}try{const{data:{session}}=await sb.auth.getSession();if(!session){tab='login';ready=1;render();return}
+uid=session.user.id;const{data:pr}=await sb.from('profiles').select('*').eq('id',uid).maybeSingle();await loadComms();if(pr){me=pr;await loadMods();await loadPosts()}else tab='welcome';ready=1;render()}catch(x){ready=1;$('view').innerHTML='<div class="list"><div class="sub">Could not connect. Check the Supabase URL and key.</div></div>'}})();
+</script>
+</body>
+</html>

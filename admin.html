@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gogossip admin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#FFF6EC;--line:#F1E1D2;--tx:#231B33;--mut:#6B6280;--pri:#6C3BFF;--grad:linear-gradient(135deg,#6C3BFF,#E8307A);color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Space Grotesk',system-ui,sans-serif;font-size:15px}
+.wrap{max-width:960px;margin:0 auto;padding:24px 16px 64px}
+h1{margin:0 0 16px;font-size:28px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.t{height:44px;padding:0 18px;border-radius:22px;border:2px solid var(--line);background:#fff;font:inherit;font-weight:500;cursor:pointer}
+.t.on{background:var(--grad);color:#fff;border-color:transparent;font-weight:700}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;display:flex;flex-direction:column;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.grid .card{margin:0}
+.sub{font-size:13px;color:var(--mut)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.b{height:40px;padding:0 14px;border-radius:20px;border:2px solid var(--pri);background:#fff;color:var(--pri);font:inherit;font-weight:700;cursor:pointer}
+.b.r{border-color:#C71F55;color:#C71F55}
+.in{height:44px;border-radius:12px;border:2px solid var(--line);padding:0 12px;font:inherit;background:#fff;color:var(--tx)}
+.form{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap"><h1>gogossip admin</h1><div id="tabs" class="tabs"></div><div id="main"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const SB_URL='https://agdpjenfwvsqgyeheqoy.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnZHBqZW5md3ZzcWd5ZWhlcW95Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwODI4NjMsImV4cCI6MjEwNzY1ODg2M30.0JFAqQ9kMUX0JlnA8cqUfJGagXypJAdnMM-tuOD5NzE';
+const sb=SB_URL.startsWith('http')?supabase.createClient(SB_URL,SB_KEY):null;
+const $=id=>document.getElementById(id),e=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TABS=[['over','Overview'],['queue','Review queue'],['posts','Posts'],['mods','Mods'],['users','Users']];
+let tab='over';
+const B=(a,id,t,x='',c='')=>`<button class="b ${c}" data-a="${a}" data-id="${id}" ${x}>${t}</button>`;
+const post=(p,stat,btns)=>`<div class="card"><div class="sub">${e(p.community_name)} - by ${e(p.handle)}${p.pinned?' - <b>PINNED</b>':''}</div><div>${e(p.body)}</div><div class="sub">${stat}</div><div class="acts">${btns}</div></div>`;
+const rpcv=async(n,a)=>{const r=await sb.rpc(n,a);if(r.error){alert(r.error.message);return null}return r.data};
+async function show(){
+$('tabs').innerHTML=TABS.map(t=>`<button class="t ${tab==t[0]?'on':''}" data-a="tab" data-id="${t[0]}">${t[1]}</button>`).join('');
+let h='';
+if(tab=='over'){const s=await rpcv('admin_stats')||{};h='<div class="grid">'+Object.entries(s).map(([k,v])=>`<div class="card"><b style="font-size:30px">${v}</b><div class="sub">${k.replace(/_/g,' ')}</div></div>`).join('')+'</div>'}
+if(tab=='queue'){const q=await rpcv('admin_queue')||[];h=q.map(p=>post(p,`${p.rcount} reports - ${p.is_hidden?'HIDDEN':'visible'}`,(p.is_hidden?B('restore',p.id,'Restore'):B('hide',p.id,'Hide'))+B('del',p.id,'Delete','','r'))).join('')||'<div class="sub">Nothing to review.</div>'}
+if(tab=='posts'){const{data}=await sb.from('feed').select('*').order('created_at',{ascending:false}).limit(50);h=(data||[]).map(p=>post(p,`score ${p.score} - ${p.likes} likes - ${p.dislikes} dislikes - ${p.replies} comments`,B('pin',p.id,'Pin 24h','data-w="24"')+B('pin',p.id,'Pin 3d','data-w="72"')+B('pin',p.id,'Pin 7d','data-w="168"')+B('unpin',p.id,'Unpin')+B('hide',p.id,'Hide')+B('del',p.id,'Delete','','r'))).join('')||'<div class="sub">No posts.</div>'}
+if(tab=='mods'){const m=await rpcv('admin_mods')||[];h=`<div class="card"><b>Give Mod or Vice Mod</b><div class="form"><input id="cs" class="in" placeholder="community slug (e.g. bba)"><input id="hd" class="in" placeholder="handle"><select id="rl" class="in"><option value="mod">Mod</option><option value="vice">Vice Mod</option></select><button class="b" data-a="addmod">Save</button></div><div class="sub">Slug is the lowercase community name with dashes. Sherwood is "sherwood".</div></div>`+m.map(x=>`<div class="card"><div><b>${e(x.handle)}</b> - ${x.role=='mod'?'Mod':'Vice Mod'} of ${e(x.community_name)}</div><div class="acts"><button class="b r" data-a="rm" data-c="${e(x.community_slug)}" data-h="${e(x.handle)}">Remove</button></div></div>`).join('')}
+if(tab=='users')h=`<div class="card"><b>Ban or unban a handle</b><div class="form"><input id="bh" class="in" placeholder="handle"><button class="b r" data-a="ban">Ban</button><button class="b" data-a="unban">Unban</button></div><div class="sub">Banned users can read but cannot post, comment or reply.</div></div>`;
+$('main').innerHTML=h}
+const g=i=>$(i).value.trim();
+const M={restore:id=>['mod_set_hidden',{pid:id,h:false}],hide:id=>['mod_set_hidden',{pid:id,h:true}],del:id=>['mod_delete_post',{pid:id}],unpin:id=>['unpin_post',{pid:id}],
+pin:(id,b)=>['pin_post',{pid:id,hours:+b.dataset.w}],addmod:()=>['admin_set_mod',{cslug:g('cs').toLowerCase(),h:g('hd'),r:g('rl')}],rm:(id,b)=>['admin_remove_mod',{cslug:b.dataset.c,h:b.dataset.h}],
+ban:()=>['admin_ban',{h:g('bh'),b:true}],unban:()=>['admin_ban',{h:g('bh'),b:false}]};
+document.addEventListener('click',async x=>{const b=x.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=+b.dataset.id;
+if(a=='tab')tab=b.dataset.id;else{if(a=='del'&&!confirm('Delete this post permanently?'))return;const f=M[a](id,b),r=await sb.rpc(f[0],f[1]);if(r.error){alert(r.error.message);return}}
+show()});
+(async function(){if(!sb){$('main').innerHTML='<div class="card">Open admin.html in a text editor and replace YOUR_SUPABASE_URL and YOUR_SUPABASE_ANON_KEY.</div>';return}try{const{data:{session}}=await sb.auth.getSession();
+if(!session){$('main').innerHTML='<div class="card">Sign in on the main site first, then reopen this page.</div>';return}
+const{data:pr}=await sb.from('profiles').select('role,handle').eq('id',session.user.id).maybeSingle();
+if(!pr||pr.role!='admin'){$('main').innerHTML='<div class="card">Not an admin account.</div>';return}
+show()}catch(x){$('main').innerHTML='<div class="card">Could not connect. Check the Supabase URL and key.</div>'}})();
+</script>
+</body>
+</html>
